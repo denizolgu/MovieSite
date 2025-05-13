@@ -8,7 +8,6 @@ namespace MovieSite.Controllers
     {
         public IActionResult Index()
         {
-            var x = 5;
             var cart = HttpContext.Session.Get<List<int>>("Cart") ?? new List<int>();
             var movies = HttpContext.Session.Get<List<Movie>>("Movies") ?? new List<Movie>();
 
