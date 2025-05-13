@@ -1,0 +1,75 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<style>
+    .movie-container {
+        max-width: 450px;
+        margin: 50px auto;
+        text-align: center;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .movie-container img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+    .movie-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 10px;
+        color: #333;
+    }
+
+    .movie-info {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .alert {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        color: white;
+    }
+
+    .alert-success {
+        background-color: #28a745;
+    }
+
+    .alert-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+</style>
+
+<div class="movie-container">
+    <img src="~/images/@Model.ImageUrl" alt="@Model.Title">
+    <div class="movie-title">@Model.Title</div>
+    <div class="movie-info">Author: @Model.Director</div>
+    <div class="movie-info">Stars: @string.Join(", ", Model.Stars)</div>
+    <div class="movie-info">Release Year: @Model.ReleaseYear</div>
+
+    @if (TempData["CartMessage"] != null)
+    {
+        <div class="alert @(TempData["CartMessage"].ToString().Contains("already") ? "alert-warning" : "alert-success")">
+            @TempData["CartMessage"]
+        </div>
+    }
+
+    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+        <input type="hidden" name="id" value="@Model.MovieID" />
+        <button type="submit" class="btn btn-primary w-100 mt-2">Add To Cart</button>
+    </form>
+
+    <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-secondary w-100 mt-2">Display Shopping Cart</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-link w-100 mt-2">Return To Main Page</a>
+</div>
